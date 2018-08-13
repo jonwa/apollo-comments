@@ -2,8 +2,9 @@
 import React from 'react';
 
 export default function Playground() {
-    return (
-        <div>
-        </div>
-    );
+  return (
+    <div>
+      Hello Playground!
+    </div>
+  );
 }

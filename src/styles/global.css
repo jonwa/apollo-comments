@@ -1,0 +1,64 @@
+html {
+    box-sizing: border-box;
+}
+
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+html,
+body {
+  line-height: 1.5rem;
+  font-family: var(--system-fonts);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 0;
+  margin-bottom: .5em;
+  color: var(--black, black);
+  font-weight: 100;
+}
+
+h1 {
+  font-size: 48px;
+  line-height: 56px;
+}
+
+h2 {
+  font-size: 32px;
+  line-height: 40px;
+}
+
+h3 {
+  font-size: 24px;
+  line-height: 32px;
+}
+
+h4 {
+  font-size: 20px;
+  line-height: 28px;
+}
+
+h5 {
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 500;
+}
+
+h6 {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+}
+
+p {
+  font-size: 16px;
+  line-height: 24px;
+  margin-bottom: 1rem;
+  margin-top: 0;
+}
