@@ -24,6 +24,20 @@ module.exports = merge(baseConfig, {
           },
         ],
       },
+      {
+        test: /\.css$/,
+        use: [
+          {
+            loader: 'style-loader',
+            options: {
+              // Insert styles where portal.css is (which is at the top)
+              insertAt: 'top'
+            },
+          },
+          'css-loader?modules=true&localIdentName=[local]',
+          'postcss-loader',
+        ]
+      },
     ],
   },
   plugins: [

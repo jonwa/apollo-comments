@@ -1,3 +1,22 @@
 :root {
-
+  --black: #1e1e1e;
+  --charcoal: #505050;
+  --cloud: #dee6ec;
+  --danger: #ce5757;
+  --danger-hover: #b14a4a;
+  --dark-gray: #a3a3a3;
+  --day: #3d7796;
+  --evening: #32647f;
+  --light-smoke: #f6f6f6;
+  --marble: #f0f0f0;
+  --midnight: #24495c;
+  --misty: #c8c8c8;
+  --morning: #6593ad;
+  --sky: #c2d3e0;
+  --stone: #7c7c7c;
+  --success: #67a799;
+  --success-hover: #5c9286;
+  --warning: #f6ce8e;
+  --warning-hover: #efbf72;
+  --white: #ffffff;
 }

@@ -1,3 +1,5 @@
+/* eslint-disable import/no-extraneous-dependencies */
+
 module.exports = {
   module: {
     rules: [
@@ -17,3 +19,4 @@ module.exports = {
     extensions: ['.js', '.jsx'],
   },
 };
+
