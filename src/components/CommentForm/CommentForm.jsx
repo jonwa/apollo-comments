@@ -17,14 +17,12 @@ const userPropType = PropTypes.shape({
 
 const propTypes = {
   activeUser: userPropType,
-  buttonText: PropTypes.string,
   placeholder: PropTypes.string,
 };
 
 const defaultProps = {
-  activeUser: null,
-  buttonText: 'Post',
-  placeholder: 'Write a comment...',
+  activeUser: undefined,
+  placeholder: undefined,
 };
 
 const contextTypes = {
@@ -38,7 +36,6 @@ class CommentForm extends React.Component {
 
     this._formRef = React.createRef();
     this._textareaRef = React.createRef();
-
 
     this.handleResize = this.handleResize.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
@@ -70,7 +67,8 @@ class CommentForm extends React.Component {
     const minHeight = current.scrollHeight;
     const outerHeight = parseInt(window.getComputedStyle(current).height, 10);
     const diff = outerHeight - current.clientHeight;
-    current.style.height = `${Math.max(minHeight, current.scrollHeight + diff)}px`;
+    current.style.height =
+      `${Math.max(minHeight, current.scrollHeight + diff)}px`;
   }
 
   handleKeyDown(e) {
@@ -113,15 +111,12 @@ class CommentForm extends React.Component {
   }
 
   render() {
-    const { empty } = this.state;
     const {
-      activeUser: {
-        displayName,
-        imageUrl,
-      },
-      buttonText,
+      activeUser,
       placeholder,
     } = this.props;
+
+    const { empty } = this.state;
 
     const formGroupClasses = styles['comment-form-group'];
 
@@ -132,9 +127,9 @@ class CommentForm extends React.Component {
       >
         <FormGroup className={formGroupClasses}>
           <Avatar
-            name={displayName}
+            name={activeUser ? activeUser.displayName : null}
             size="medium"
-            src={imageUrl}
+            src={activeUser ? activeUser.imageUrl : null}
           />
         </FormGroup>
         <FormGroup className={formGroupClasses}>
@@ -151,7 +146,7 @@ class CommentForm extends React.Component {
             color="primary"
             disabled={empty}
             onClick={this.handleSubmit}
-          >{buttonText}
+          >Post
           </Button>
         </FormGroup>
       </Form>

@@ -15,7 +15,7 @@ const propTypes = {
   author: PropTypes.shape({
     displayName: PropTypes.string,
     imageUrl: PropTypes.string,
-    profileUrl: PropTypes.string
+    url: PropTypes.string
   }),
   createdDate: PropTypes.string,
   editable: PropTypes.bool,
@@ -25,14 +25,14 @@ const propTypes = {
 
 const defaultProps = {
   author: {
-    displayName: '',
-    imageUrl: '',
-    profileUrl: '',
+    displayName: undefined,
+    imageUrl: undefined,
+    url: undefined,
   },
-  createdDate: null,
+  createdDate: undefined,
   editable: false,
-  id: null,
-  text: null,
+  id: undefined,
+  text: undefined,
 };
 
 const contextTypes = {
@@ -74,16 +74,13 @@ class Comment extends React.Component {
       text,
       createdDate,
       author: {
-        imageUrl,
         displayName,
+        imageUrl,
       },
       editable,
     } = this.props;
 
     const { onTranslate } = this.context;
-
-    const deleteText = 'Delete';
-    const translateText = 'Translate';
 
     return (
       <div className={styles.comment}>
@@ -98,14 +95,12 @@ class Comment extends React.Component {
             <BasicDropdown className={styles['comment-settings']}>
               <DropdownToggle>...</DropdownToggle>{/* eslint-disable-line react/jsx-no-literals */}
               <DropdownMenu right>
-                <DropdownItem onClick={this.handleDelete}>
-                  {deleteText}
-                </DropdownItem>
+                <DropdownItem onClick={this.handleDelete}>Delete</DropdownItem>
               </DropdownMenu>
             </BasicDropdown>
           )}
           <p className={styles['comment-author-name']}>{displayName}</p>
-          <p dangerouslySetInnerHTML={{ __html: text }} />
+          <p className={styles['comment-text']} dangerouslySetInnerHTML={{ __html: text }} />
           <small>{moment(createdDate).format('YYYY-MM-DD HH:mm:ss')}</small>
           {onTranslate && (
             <Button
@@ -113,7 +108,7 @@ class Comment extends React.Component {
               color="link"
               onClick={this.handleTranslate}
               size="small"
-            >{translateText}
+            >Translate
             </Button>
           )}
         </div>

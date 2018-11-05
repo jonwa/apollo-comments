@@ -25,10 +25,13 @@
 
 .comment-body p {
   margin-bottom: 2.5px;
+}
+
+.comment-body .comment-text {
   white-space: pre-wrap;
 }
 
-.comment-author-name {
+.comment-body .comment-author-name {
   font-weight: bold;
 }
 

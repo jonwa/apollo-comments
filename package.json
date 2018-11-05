@@ -22,16 +22,14 @@
   },
   "scripts": {
     "publish": "npm publish",
-    "pack": "npm pack",
     "lint": "eslint . --max-warnings 0",
     "test": "jest",
     "test:ci": "yarn run test --runInBand",
     "test:watch": "yarn run test --watch",
     "check": "npm-run-all lint test",
     "check:ci": "npm-run-all lint test:ci",
+    "build": "webpack --config ./webpack/prod.config.js",
     "build:dev": "webpack --config ./webpack/dev.config.js",
-    "build:prod": "webpack --config ./webpack/prod.config.js",
-    "build": "npm-run-all build:prod build:dev",
     "start": "webpack-dev-server --open --config ./webpack/test.config.js"
   },
   "devDependencies": {
@@ -81,5 +79,14 @@
     "webpack-dev-server": "^3.1.1",
     "webpack-licenses-plugin": "^0.0.3",
     "webpack-merge": "^4.1.2"
+  },
+  "jest": {
+    "testURL": "http://localhost:8080",
+    "setupFiles": [
+      "./tests/setup.js"
+    ],
+    "moduleNameMapper": {
+      ".+\\.(css|styl|less|sass|scss)$": "<rootDir>/node_modules/jest-css-modules-transform"
+    }
   }
 }

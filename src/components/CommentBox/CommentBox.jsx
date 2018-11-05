@@ -6,14 +6,14 @@ import CommentList from '../CommentList';
 import Comment from '../Comment';
 import * as styles from './CommentBox.css';
 
-const userPropType = PropTypes.shape({
-  displayName: PropTypes.string,
+const authorPropType = PropTypes.shape({
   imageUrl: PropTypes.string,
-  redirectUrl: PropTypes.string
+  name: PropTypes.string,
+  url: PropTypes.string
 });
 
 const commentPropType = PropTypes.shape({
-  author: userPropType,
+  author: authorPropType,
   createdDate: PropTypes.string,
   editable: PropTypes.bool,
   id: PropTypes.string,
@@ -21,20 +21,22 @@ const commentPropType = PropTypes.shape({
 });
 
 const propTypes = {
-  activeUser: userPropType,
+  activeUser: authorPropType,
   comments: PropTypes.arrayOf(commentPropType),
-  onAdd: PropTypes.func,
-  onDelete: PropTypes.func,
-  onTranslate: PropTypes.func,
+  onAddComment: PropTypes.func,
+  onDeleteComment: PropTypes.func,
+  onTranslateComment: PropTypes.func,
+  placeholder: PropTypes.string,
   title: PropTypes.string,
 };
 
 const defaultProps = {
-  activeUser: null,
-  comments: null,
-  onAdd: undefined,
-  onDelete: undefined,
-  onTranslate: undefined,
+  activeUser: undefined,
+  comments: [],
+  onAddComment: undefined,
+  onDeleteComment: undefined,
+  onTranslateComment: undefined,
+  placeholder: 'Write a comment...',
   title: 'Comments',
 };
 
@@ -47,15 +49,15 @@ const childContextTypes = {
 class CommentBox extends React.PureComponent {
   getChildContext() {
     const {
-      onAdd,
-      onDelete,
-      onTranslate
+      onAddComment,
+      onDeleteComment,
+      onTranslateComment
     } = this.props;
 
     return {
-      onAdd,
-      onDelete,
-      onTranslate,
+      onAdd: onAddComment,
+      onDelete: onDeleteComment,
+      onTranslate: onTranslateComment,
     };
   }
 
@@ -63,6 +65,7 @@ class CommentBox extends React.PureComponent {
     const {
       activeUser,
       comments,
+      placeholder,
       title,
     } = this.props;
 
@@ -80,7 +83,7 @@ class CommentBox extends React.PureComponent {
             />
           )))}
         </CommentList>
-        <CommentForm activeUser={activeUser} />
+        <CommentForm activeUser={activeUser} placeholder={placeholder} />
       </div>
     );
   }

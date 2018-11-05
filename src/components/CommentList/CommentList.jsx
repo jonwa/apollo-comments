@@ -5,7 +5,7 @@ import * as styles from './CommentList.css';
 const userPropType = PropTypes.shape({
   displayName: PropTypes.string,
   imageUrl: PropTypes.string,
-  redirectUrl: PropTypes.string
+  url: PropTypes.string
 });
 
 const commentPropType = PropTypes.shape({
