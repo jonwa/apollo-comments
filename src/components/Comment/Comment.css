@@ -44,13 +44,13 @@
   vertical-align: top !important;
 }
 
-.comment-settings {
+.comment-actions-dropdown {
   position: absolute;
   top: 0;
   right: 0;
 }
 
-.comment-settings .apollo-dropdown-toggle {
+.comment-actions-dropdown-toggle {
   font-size: 32px;
 }
 

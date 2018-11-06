@@ -7,6 +7,13 @@
   padding: 12px 0 20px 0;
 }
 
+.comment-form .button-submit {
+  float: right;
+  min-width: 58px;
+  height: 38px;
+  padding: 0;
+}
+
 .comment-form-group {
   display: inline-flex;
   flex-grow: 1;
@@ -19,6 +26,12 @@
   display: none;
 }
 
+.comment-form-group:last-child {
+  display: block;
+  width: 100%;
+  padding-top: 0;
+}
+
 @media (--tablet) {
   .comment-form-group:first-child {
     display: inline-flex;
@@ -28,24 +41,7 @@
   }
 }
 
-.comment-form-group:last-child {
-  display: block;
-  width: 100%;
-  padding-top: 0;
-}
-
-.comment-form-group .button {
-  padding: 0;
-}
-
 .comment-form-group textarea {
   max-width: 100%;
   resize: none;
-  overflow: hidden;
-}
-
-.button-post-comment {
-  float: right;
-  min-width: 58px;
-  height: 38px;
 }

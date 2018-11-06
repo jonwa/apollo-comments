@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import shortid from 'shortid';
 import moment from 'moment';
 import {
   Avatar,
@@ -12,103 +13,83 @@ import {
 import * as styles from './Comment.css';
 
 const propTypes = {
+  actions: PropTypes.arrayOf(PropTypes.shape({
+    label: PropTypes.string,
+    onClick: PropTypes.func,
+  })),
   author: PropTypes.shape({
     displayName: PropTypes.string,
     imageUrl: PropTypes.string,
     url: PropTypes.string
   }),
   createdDate: PropTypes.string,
-  editable: PropTypes.bool,
   id: PropTypes.string,
   text: PropTypes.string,
+  translate: PropTypes.shape({
+    label: PropTypes.string,
+    onClick: PropTypes.func,
+  })
 };
 
 const defaultProps = {
+  actions: undefined,
   author: {
     displayName: undefined,
     imageUrl: undefined,
     url: undefined,
   },
   createdDate: undefined,
-  editable: false,
   id: undefined,
   text: undefined,
+  translate: undefined,
 };
 
-const contextTypes = {
-  onDelete: PropTypes.func,
-  onTranslate: PropTypes.func,
-};
-
-class Comment extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleDelete = this.handleDelete.bind(this);
-    this.handleTranslate = this.handleTranslate.bind(this);
-  }
-
-  handleDelete(e) {
-    const { id } = this.props;
-    const { onDelete } = this.context;
-    if (!onDelete) {
-      e.preventDefault();
-      return;
-    }
-
-    onDelete(id);
-  }
-
-  handleTranslate(e) {
-    const { id } = this.props;
-    const { onTranslate } = this.context;
-    if (!onTranslate) {
-      e.preventDefault();
-      return;
-    }
-
-    onTranslate(id);
-  }
-
+class Comment extends React.PureComponent {
   render() {
     const {
-      text,
+      actions,
+      author,
       createdDate,
-      author: {
-        displayName,
-        imageUrl,
-      },
-      editable,
+      id,
+      text,
+      translate,
     } = this.props;
-
-    const { onTranslate } = this.context;
 
     return (
       <div className={styles.comment}>
         <Avatar
           className={styles['comment-author-avatar']}
-          name={displayName}
+          name={author.displayName}
           size="small"
-          src={imageUrl}
+          src={author.imageUrl}
         />
         <div className={styles['comment-body']}>
-          {editable && (
-            <BasicDropdown className={styles['comment-settings']}>
-              <DropdownToggle>...</DropdownToggle>{/* eslint-disable-line react/jsx-no-literals */}
+          {actions && (
+            <BasicDropdown className={styles['comment-actions-dropdown']}>
+              <DropdownToggle className={styles['comment-actions-dropdown-toggle']}> {/* eslint-disable-line react/jsx-no-literals */}
+                ...
+              </DropdownToggle>
               <DropdownMenu right>
-                <DropdownItem onClick={this.handleDelete}>Delete</DropdownItem>
+                {actions.map(action => (
+                  <DropdownItem
+                    key={shortid.generate()}
+                    onClick={() => action.onClick(id)}
+                  >{action.label}
+                  </DropdownItem>
+                ))}
               </DropdownMenu>
             </BasicDropdown>
           )}
-          <p className={styles['comment-author-name']}>{displayName}</p>
+          <p className={styles['comment-author-name']}>{author.displayName}</p>
           <p className={styles['comment-text']} dangerouslySetInnerHTML={{ __html: text }} />
           <small>{moment(createdDate).format('YYYY-MM-DD HH:mm:ss')}</small>
-          {onTranslate && (
+          {translate && (
             <Button
               className={styles['button-translate']}
               color="link"
-              onClick={this.handleTranslate}
+              onClick={() => translate.onClick(id)}
               size="small"
-            >Translate
+            >{translate.label}
             </Button>
           )}
         </div>
@@ -119,7 +100,6 @@ class Comment extends React.Component {
 
 Comment.propTypes = propTypes;
 Comment.defaultProps = defaultProps;
-Comment.contextTypes = contextTypes;
 
 export default Comment;
 

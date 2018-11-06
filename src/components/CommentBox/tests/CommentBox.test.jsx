@@ -7,7 +7,7 @@ describe('<CommentBox />', () => {
   describe('template', () => {
     it('should set a value for title', () => {
       const commentBox = mount(<CommentBox />);
-      expect(commentBox.prop('title')).toEqual(undefined);
+      expect(commentBox.prop('title')).toEqual('Comments');
     });
   });
 });

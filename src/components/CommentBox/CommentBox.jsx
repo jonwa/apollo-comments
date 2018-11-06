@@ -1,90 +1,63 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import shortid from 'shortid';
-import CommentForm from '../CommentForm';
-import CommentList from '../CommentList';
-import Comment from '../Comment';
 import * as styles from './CommentBox.css';
 
-const authorPropType = PropTypes.shape({
-  imageUrl: PropTypes.string,
-  name: PropTypes.string,
-  url: PropTypes.string
-});
-
-const commentPropType = PropTypes.shape({
-  author: authorPropType,
-  createdDate: PropTypes.string,
-  editable: PropTypes.bool,
-  id: PropTypes.string,
-  text: PropTypes.string,
-});
-
 const propTypes = {
-  activeUser: authorPropType,
-  comments: PropTypes.arrayOf(commentPropType),
-  onAddComment: PropTypes.func,
-  onDeleteComment: PropTypes.func,
-  onTranslateComment: PropTypes.func,
-  placeholder: PropTypes.string,
+  author: PropTypes.shape({
+    displayName: PropTypes.string,
+    imageUrl: PropTypes.string,
+    url: PropTypes.string
+  }),
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]),
+  tag: PropTypes.string,
   title: PropTypes.string,
 };
 
 const defaultProps = {
-  activeUser: undefined,
-  comments: [],
-  onAddComment: undefined,
-  onDeleteComment: undefined,
-  onTranslateComment: undefined,
-  placeholder: 'Write a comment...',
+  author: {
+    displayName: undefined,
+    imageUrl: undefined,
+    url: undefined,
+  },
+  children: undefined,
+  tag: 'div',
   title: 'Comments',
 };
 
 const childContextTypes = {
-  onAdd: PropTypes.func,
-  onDelete: PropTypes.func,
-  onTranslate: PropTypes.func,
+  author: PropTypes.shape({
+    displayName: PropTypes.string,
+    imageUrl: PropTypes.string,
+    url: PropTypes.string
+  }),
 };
 
 class CommentBox extends React.PureComponent {
   getChildContext() {
     const {
-      onAddComment,
-      onDeleteComment,
-      onTranslateComment
+      author
     } = this.props;
 
-    return {
-      onAdd: onAddComment,
-      onDelete: onDeleteComment,
-      onTranslate: onTranslateComment,
-    };
+    return { author };
   }
 
   render() {
     const {
-      activeUser,
-      comments,
-      placeholder,
+      children,
       title,
+      tag: Tag,
     } = this.props;
 
-    const sortedComments = comments.sort((lhs, rhs) => (
-      (lhs.createdDate < rhs.createdDate ? -1 : 1)));
-
     return (
-      <div className={styles['comment-box']}>
-        <h3>{title}</h3>
-        <CommentList>
-          {(sortedComments.map(comment => (
-            <Comment
-              key={shortid.generate()}
-              {...comment}
-            />
-          )))}
-        </CommentList>
-        <CommentForm activeUser={activeUser} placeholder={placeholder} />
-      </div>
+      <Tag className={styles['comment-box']}>
+        <h3 className={styles['comment-box-title']}>
+          {title}
+        </h3>
+        {children}
+      </Tag>
     );
   }
 }

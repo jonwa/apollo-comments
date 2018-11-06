@@ -2,35 +2,30 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import * as styles from './CommentList.css';
 
-const userPropType = PropTypes.shape({
-  displayName: PropTypes.string,
-  imageUrl: PropTypes.string,
-  url: PropTypes.string
-});
-
-const commentPropType = PropTypes.shape({
-  author: userPropType,
-  createdDate: PropTypes.string,
-  editable: PropTypes.bool,
-  id: PropTypes.string,
-  text: PropTypes.string,
-});
-
 const propTypes = {
-  children: PropTypes.arrayOf(commentPropType),
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]),
+  tag: PropTypes.string,
 };
 
 const defaultProps = {
   children: [],
+  tag: 'div',
 };
 
 class CommentList extends React.PureComponent {
   render() {
-    const { children } = this.props;
+    const {
+      children,
+      tag: Tag,
+    } = this.props;
+
     return (
-      <div className={styles['comment-list']}>
+      <Tag className={styles['comment-list']}>
         {children}
-      </div>
+      </Tag>
     );
   }
 }

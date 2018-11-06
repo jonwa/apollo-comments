@@ -7,7 +7,7 @@ describe('<CommentForm />', () => {
   describe('template', () => {
     it('is expect activeUser to be null', () => {
       const commentForm = mount(<CommentForm />);
-      expect(commentForm.prop('activeUser')).toBe(undefined);
+      expect(commentForm.prop('placeholder')).toEqual('Write a comment...');
     });
   });
 });

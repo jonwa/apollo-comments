@@ -9,130 +9,111 @@ import {
 } from '@afconsult/apollo';
 import * as styles from './CommentForm.css';
 
-const userPropType = PropTypes.shape({
-  displayName: PropTypes.string,
-  imageUrl: PropTypes.string,
-  redirectUrl: PropTypes.string
-});
-
 const propTypes = {
-  activeUser: userPropType,
+  onSubmit: PropTypes.func,
   placeholder: PropTypes.string,
+  submitLabel: PropTypes.string,
 };
 
 const defaultProps = {
-  activeUser: undefined,
-  placeholder: undefined,
+  onSubmit: undefined,
+  placeholder: 'Write a comment...',
+  submitLabel: 'Post',
 };
 
 const contextTypes = {
-  onAdd: PropTypes.func,
+  author: PropTypes.shape({
+    displayName: PropTypes.string,
+    imageUrl: PropTypes.string,
+    url: PropTypes.string
+  })
 };
 
 class CommentForm extends React.Component {
   constructor(props, context) {
     super(props, context);
-    this.state = { empty: true };
-
-    this._formRef = React.createRef();
+    this.state = { disabled: true };
     this._textareaRef = React.createRef();
-
+    this.handleKeyup = this.handleKeyup.bind(this);
+    this.handleKeydown = this.handleKeydown.bind(this);
     this.handleResize = this.handleResize.bind(this);
-    this.handleKeyDown = this.handleKeyDown.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
-    const { current } = this._textareaRef;
-
-    current.style.boxSizing = 'border-box';
-    current.style.mozBoxSizing = 'border-box';
-    current.style.overflowY = 'hidden';
-
-    current.addEventListener('keydown', this.handleKeyDown);
-    current.addEventListener('input', this.handleResize);
-    current.addEventListener('resize', this.handleResize);
+    const { current: textarea } = this._textareaRef;
+    textarea.style.overflowY = 'hidden';
+    textarea.style.boxSizing = 'border-box';
+    textarea.style.mozBoxSizing = 'border-box';
+    textarea.addEventListener('keyup', this.handleKeyup);
+    textarea.addEventListener('keydown', this.handleKeydown);
+    textarea.addEventListener('input', this.handleResize);
+    textarea.addEventListener('resize', this.handleResize);
   }
 
   onComponentDidUnmount() {
-    const { current } = this._textareaRef;
-    current.removeEventListener('keydown', this.handleKeyDown);
-    current.removeEventListener('input', this.handleResize);
-    current.removeEventListener('resize', this.handleResize);
+    const { current: textarea } = this._textareaRef;
+    textarea.removeEventListener('keyup', this.handleKeyup);
+    textarea.removeEventListener('keydown', this.handleKeydown);
+    textarea.removeEventListener('input', this.handleResize);
+    textarea.removeEventListener('resize', this.handleResize);
   }
 
   handleResize() {
-    const { current } = this._textareaRef;
-    current.style.height = 0;
-    const minHeight = current.scrollHeight;
-    const outerHeight = parseInt(window.getComputedStyle(current).height, 10);
-    const diff = outerHeight - current.clientHeight;
-    current.style.height =
-      `${Math.max(minHeight, current.scrollHeight + diff)}px`;
+    const { current: textarea } = this._textareaRef;
+    textarea.style.height = 0;
+    const minHeight = textarea.scrollHeight;
+    const outerHeight = parseInt(window.getComputedStyle(textarea).height, 10);
+    const diff = outerHeight - textarea.clientHeight;
+    textarea.style.height =
+      `${Math.max(minHeight, textarea.scrollHeight + diff)}px`;
   }
 
-  handleKeyDown(e) {
-    const { current } = this._textareaRef;
+  handleKeyup() {
+    const { current: textarea } = this._textareaRef;
+    this.setState({ disabled: textarea.value === '' });
+  }
 
-    if (e.ctrlKey && e.keyCode === 8) { // ctrl-backspace
-      // TODO(jon): Remove word by word.
-    }
-
-    if (!e.shiftKey && e.keyCode === 13) { // enter
+  handleKeydown(e) {
+    if (!e.shiftKey && e.keyCode === 13) {
       e.preventDefault();
       this.handleSubmit(e);
-      this.handleResize();
-
-      const txtFile = new File('text.txt');
-      txtFile.writeln(current.value);
-      txtFile.close();
-      return;
     }
-
-    this.setState({ empty: current.value === '' });
   }
 
   handleSubmit(e) {
-    const { onAdd } = this.context;
-    if (!onAdd) {
+    const { onSubmit } = this.props;
+    const { current: textarea } = this._textareaRef;
+
+    if (!onSubmit) {
       e.preventDefault();
       return;
     }
 
-    const { current } = this._textareaRef;
-    if (!current.value) {
-      return;
+    if (textarea.value) {
+      onSubmit(textarea.value);
+      textarea.value = '';
+
+      this.setState({ disabled: true });
+      this.handleResize();
     }
-
-    onAdd(current.value);
-
-    current.value = '';
-    this.setState({ empty: true });
   }
 
   render() {
-    const {
-      activeUser,
-      placeholder,
-    } = this.props;
-
-    const { empty } = this.state;
-
-    const formGroupClasses = styles['comment-form-group'];
+    const { disabled } = this.state;
+    const { author } = this.context;
+    const { placeholder, submitLabel } = this.props;
 
     return (
-      <Form
-        className={styles['comment-form']}
-        innerRef={this._formRef}
-      >
-        <FormGroup className={formGroupClasses}>
+      <Form className={styles['comment-form']}>
+        <FormGroup className={styles['comment-form-group']}>
           <Avatar
-            name={activeUser ? activeUser.displayName : null}
+            name={author.displayName}
             size="medium"
-            src={activeUser ? activeUser.imageUrl : null}
+            src={author.imageUrl}
           />
         </FormGroup>
-        <FormGroup className={formGroupClasses}>
+        <FormGroup className={styles['comment-form-group']}>
           <TextArea
             innerRef={this._textareaRef}
             placeholder={placeholder}
@@ -140,13 +121,13 @@ class CommentForm extends React.Component {
             rows="1"
           />
         </FormGroup>
-        <FormGroup className={formGroupClasses}>
+        <FormGroup className={styles['comment-form-group']}>
           <Button
-            className={styles['button-post-comment']}
+            className={styles['button-submit']}
             color="primary"
-            disabled={empty}
+            disabled={disabled}
             onClick={this.handleSubmit}
-          >Post
+          >{submitLabel}
           </Button>
         </FormGroup>
       </Form>
