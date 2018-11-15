@@ -41,7 +41,7 @@ const contextTypes = {
 class CommentForm extends React.Component {
   constructor(props, context) {
     super(props, context);
-    this.state = { disabled: true, quill: null };
+    this.state = { disabled: true, editor: null };
     this.handleKeyDown = this.handleKeyDown.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -55,7 +55,7 @@ class CommentForm extends React.Component {
   }
 
   handleSubmit(e) {
-    const { quill } = this.state;
+    const { editor } = this.state;
     const { onSubmit } = this.context;
 
     if (!onSubmit) {
@@ -63,19 +63,15 @@ class CommentForm extends React.Component {
       return;
     }
 
-    if (quill) {
-      const { content, delta, editor, source } = quill; // eslint-disable-line
-      onSubmit(content, delta, source, editor);
-      this.setState({ disabled: true, quill: undefined });
+    if (editor) {
+      onSubmit(editor);
+      this.setState({ disabled: true, editor: undefined });
     }
   }
 
   handleChange(content, delta, source, editor) {
     const { getText } = editor;
-    this.setState({
-      disabled: !getText(),
-      quill: { content, delta, editor, source }, // eslint-disable-line
-    });
+    this.setState({ disabled: !getText(), editor }); // eslint-disable-line
   }
 
   render() {
