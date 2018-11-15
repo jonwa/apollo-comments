@@ -81,7 +81,7 @@ ReactDOM.render(
 : Specifying a short hint that describes the expected value of the input field.
 
 `author`
-: An object describing the active author of the comment box. The object should specify a `displayName`, `imageUrl` and `url`.
+: An object describing the user of the comment box. The object should specify a `displayName`, `imageUrl` and `url`.
 
 `comments`
 : An array of objects specifying comment data.  
@@ -95,13 +95,13 @@ ReactDOM.render(
 | `actions` | `[]` | An array of objects specifying custom actions that can be applied to edit the comment. Each action requires a `label` and `onClick(commentId)`. |
 
 `onTranslate(commentId)`
-: Called back with the comment id that has been requested to translate. Default as undefined.
+: Called back with the comment id that has been requested to translate. Default as `undefined`.
 
 `onSubmit(editor)`
-: Called back with the Quill editor after submit. For more informaton goto [React Quill](https://github.com/zenoamaro/react-quill/blob/master/README.md).
+: Called back with the Quill editor after submit. For more informaton goto [React Quill](https://github.com/zenoamaro/react-quill/blob/master/README.md). Default is `undefined`.
 
 `mention`
-: An object specifying necessary [Quill Mention](https://github.com/afconsult/quill-mention) options. See the list below.
+: An object specifying necessary [Quill Mention](https://github.com/afconsult/quill-mention) options. Default is `undefined`.
 
 | Options    | Default        | Description |
 | ---------- | -------------- | ------------ |
