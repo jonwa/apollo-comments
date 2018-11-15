@@ -1,13 +1,15 @@
 import React from 'react';
+import ReactQuill from 'react-quill';
 import PropTypes from 'prop-types';
 import {
   Avatar,
   Button,
   Form,
   FormGroup,
-  TextArea
 } from '@afconsult/apollo';
 import * as styles from './CommentForm.css';
+
+require('quill-mention');
 
 const authorPropType = PropTypes.shape({
   displayName: PropTypes.string,
@@ -16,9 +18,10 @@ const authorPropType = PropTypes.shape({
 });
 
 const mentionPropType = PropTypes.shape({
-  denotations: PropTypes.arrayOf(PropTypes.string),
-  onChange: PropTypes.func,
-  pattern: PropTypes.string,
+  allowedChars: PropTypes.regexp,
+  denotationChars: PropTypes.arrayOf(PropTypes.string),
+  onRenderItem: PropTypes.func,
+  onSource: PropTypes.func,
 });
 
 const propTypes = {
@@ -38,49 +41,13 @@ const contextTypes = {
 class CommentForm extends React.Component {
   constructor(props, context) {
     super(props, context);
-    this.state = { disabled: true };
-    this._textareaRef = React.createRef();
-    this.handleKeyup = this.handleKeyup.bind(this);
-    this.handleKeydown = this.handleKeydown.bind(this);
-    this.handleResize = this.handleResize.bind(this);
+    this.state = { disabled: true, quill: null };
+    this.handleKeyDown = this.handleKeyDown.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
-  componentDidMount() {
-    const { current: textarea } = this._textareaRef;
-    textarea.style.overflowY = 'hidden';
-    textarea.style.boxSizing = 'border-box';
-    textarea.style.mozBoxSizing = 'border-box';
-    textarea.addEventListener('keyup', this.handleKeyup);
-    textarea.addEventListener('keydown', this.handleKeydown);
-    textarea.addEventListener('input', this.handleResize);
-    textarea.addEventListener('resize', this.handleResize);
-  }
-
-  onComponentDidUnmount() {
-    const { current: textarea } = this._textareaRef;
-    textarea.removeEventListener('keyup', this.handleKeyup);
-    textarea.removeEventListener('keydown', this.handleKeydown);
-    textarea.removeEventListener('input', this.handleResize);
-    textarea.removeEventListener('resize', this.handleResize);
-  }
-
-  handleResize() {
-    const { current: textarea } = this._textareaRef;
-    textarea.style.height = 0;
-    const minHeight = textarea.scrollHeight;
-    const outerHeight = parseInt(window.getComputedStyle(textarea).height, 10);
-    const diff = outerHeight - textarea.clientHeight;
-    textarea.style.height =
-      `${Math.max(minHeight, textarea.scrollHeight + diff)}px`;
-  }
-
-  handleKeyup() {
-    const { current: textarea } = this._textareaRef;
-    this.setState({ disabled: textarea.value === '' });
-  }
-
-  handleKeydown(e) {
+  handleKeyDown(e) {
     if (!e.shiftKey && e.keyCode === 13) {
       e.preventDefault();
       this.handleSubmit(e);
@@ -88,27 +55,43 @@ class CommentForm extends React.Component {
   }
 
   handleSubmit(e) {
+    const { quill } = this.state;
     const { onSubmit } = this.context;
-    const { current: textarea } = this._textareaRef;
 
     if (!onSubmit) {
       e.preventDefault();
       return;
     }
 
-    if (textarea.value) {
-      onSubmit(textarea.value);
-      textarea.value = '';
-
-      this.setState({ disabled: true });
-      this.handleResize();
+    if (quill) {
+      const { content, delta, editor, source } = quill; // eslint-disable-line
+      onSubmit(content, delta, source, editor);
+      this.setState({ disabled: true, quill: undefined });
     }
+  }
+
+  handleChange(content, delta, source, editor) {
+    const { getText } = editor;
+    this.setState({
+      disabled: !getText(),
+      quill: { content, delta, editor, source }, // eslint-disable-line
+    });
   }
 
   render() {
     const { disabled } = this.state;
-    const { author } = this.context;
+    const { author, mention } = this.context;
     const { placeholder } = this.props;
+
+    const modules = {
+      mention: {
+        allowedChars: mention.allowedChars,
+        mentionDenotationChars: mention.denotationChars,
+        renderItem: mention.onRenderItem,
+        source: mention.onSource
+      },
+      toolbar: null,
+    };
 
     return (
       <Form className={styles['comment-form']}>
@@ -120,11 +103,12 @@ class CommentForm extends React.Component {
           />
         </FormGroup>
         <FormGroup className={styles['comment-form-group']}>
-          <TextArea
-            innerRef={this._textareaRef}
+          <ReactQuill
+            className={styles.textarea}
+            modules={modules}
+            onChange={this.handleChange}
+            onKeyDown={this.handleKeyDown}
             placeholder={placeholder}
-            resize="none"
-            rows="1"
           />
         </FormGroup>
         <FormGroup className={styles['comment-form-group']}>

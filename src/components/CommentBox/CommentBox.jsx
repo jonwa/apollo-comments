@@ -24,17 +24,14 @@ const commentPropType = PropTypes.shape({
 });
 
 const mentionPropType = PropTypes.shape({
-  denotations: PropTypes.arrayOf(PropTypes.string),
-  onChange: PropTypes.func,
-  pattern: PropTypes.string,
+  allowedChars: PropTypes.regexp,
+  denotationChars: PropTypes.arrayOf(PropTypes.string),
+  onRenderItem: PropTypes.func,
+  onSource: PropTypes.func,
 });
 
 const propTypes = {
   author: authorPropType,
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]),
   comments: PropTypes.arrayOf(commentPropType),
   mention: mentionPropType,
   onSubmit: PropTypes.func,
@@ -50,12 +47,12 @@ const defaultProps = {
     imageUrl: undefined,
     url: undefined,
   },
-  children: undefined,
   comments: undefined,
   mention: {
-    denotations: ['@'],
-    onChange: undefined,
-    pattern: /^[A-Za-z\sÅÄÖåäö]*$/,
+    allowedChars: /^[A-Za-z\sÅÄÖåäö]*$/,
+    denotationChars: ['@'],
+    onRenderItem: undefined,
+    onSource: undefined,
   },
   onSubmit: undefined,
   onTranslate: undefined,
