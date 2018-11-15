@@ -41,7 +41,11 @@
   }
 }
 
-.comment-form-group textarea {
-  max-width: 100%;
+.comment-form-group > .textarea {
+  width: 100%;
   resize: none;
+}
+
+.comment-form-group > .textarea > div {
+  border-radius: 6px;
 }
