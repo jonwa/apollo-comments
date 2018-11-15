@@ -41,12 +41,8 @@ ReactDOM.render(
       comments.sort((a, b) =>
         (a.createdDate < b.createdDate ? -1 : 1))
     }
-    onTranslate={commentId => {
-
-    }}
-    onSubmit={(content, delta, source, editor) => {
-
-    }}
+    onTranslate={commentId => { }}
+    onSubmit={editor => { }}
     mention={{
       allowedChars: /^[A-Za-z\sÅÄÖåäö]*$/,
       denotationChars: ['@'],
