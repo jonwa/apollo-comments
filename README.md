@@ -21,9 +21,9 @@ yarn add @afconsult/apollo-comments
 import '@afconsult/apollo/dist/css/apollo-comments.css';
 ```
 
-2. Import required apollo-comments components in your ```src/index.js``` file or in any of your custom component files:
+2. Import required apollo-comments component in your ```src/index.js``` file or in any of your custom component files:
 ```javascript
-import { CommentBox, CommentForm, CommentList, Comment } from '@afconsult/apollo-comments';
+import CommentBox from '@afconsult/apollo-comments';
 ```
 
 3. Tell React to render the components
