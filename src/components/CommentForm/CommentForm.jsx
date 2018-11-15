@@ -9,24 +9,30 @@ import {
 } from '@afconsult/apollo';
 import * as styles from './CommentForm.css';
 
+const authorPropType = PropTypes.shape({
+  displayName: PropTypes.string,
+  imageUrl: PropTypes.string,
+  url: PropTypes.string,
+});
+
+const mentionPropType = PropTypes.shape({
+  denotations: PropTypes.arrayOf(PropTypes.string),
+  onChange: PropTypes.func,
+  pattern: PropTypes.string,
+});
+
 const propTypes = {
-  onSubmit: PropTypes.func,
   placeholder: PropTypes.string,
-  submitLabel: PropTypes.string,
 };
 
 const defaultProps = {
-  onSubmit: undefined,
   placeholder: 'Write a comment...',
-  submitLabel: 'Post',
 };
 
 const contextTypes = {
-  author: PropTypes.shape({
-    displayName: PropTypes.string,
-    imageUrl: PropTypes.string,
-    url: PropTypes.string
-  })
+  author: authorPropType,
+  mention: mentionPropType,
+  onSubmit: PropTypes.func,
 };
 
 class CommentForm extends React.Component {
@@ -82,7 +88,7 @@ class CommentForm extends React.Component {
   }
 
   handleSubmit(e) {
-    const { onSubmit } = this.props;
+    const { onSubmit } = this.context;
     const { current: textarea } = this._textareaRef;
 
     if (!onSubmit) {
@@ -102,7 +108,7 @@ class CommentForm extends React.Component {
   render() {
     const { disabled } = this.state;
     const { author } = this.context;
-    const { placeholder, submitLabel } = this.props;
+    const { placeholder } = this.props;
 
     return (
       <Form className={styles['comment-form']}>
@@ -127,7 +133,7 @@ class CommentForm extends React.Component {
             color="primary"
             disabled={disabled}
             onClick={this.handleSubmit}
-          >{submitLabel}
+          >{'Post'}
           </Button>
         </FormGroup>
       </Form>

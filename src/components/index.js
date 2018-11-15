@@ -1,6 +1,6 @@
 export {
-  default as CommentBox,
-} from './CommentBox';
+  default as Comment,
+} from './Comment';
 
 export {
   default as CommentForm,
@@ -9,7 +9,3 @@ export {
 export {
   default as CommentList,
 } from './CommentList';
-
-export {
-  default as Comment,
-} from './Comment';

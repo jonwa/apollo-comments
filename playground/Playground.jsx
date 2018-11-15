@@ -3,19 +3,14 @@ import React from 'react';
 import shortid from 'shortid';
 import './styles.css';
 import { Container } from '@afconsult/apollo';
-import {
-  CommentBox,
-  CommentForm,
-  CommentList,
-  Comment
-} from '../src';
+import CommentBox from '../src';
 
-export default function Playground() {
-  const randomDate = (start, end) => {
-    return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime())).toJSON();
-  }
-  
-  const response = [
+const randomDate = (start, end) => {
+  return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime())).toJSON();
+}
+
+const Playground = () => {
+  const comments = [
     {
       author: {
         displayName: 'Namn Namnsson',
@@ -24,6 +19,10 @@ export default function Playground() {
       createdDate: randomDate(new Date(2018, 1, 1), new Date()),
       id: shortid.generate(),
       text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc dictum ipsum eu erat sagittis elementum. Morbi id leo commodo, facilisis nibh ullamcorper, efficitur tellus',
+      actions: [
+        { label: 'Edit', onClick: (commentId) => console.log(`Edited ${commentId}`) },
+        { label: 'Delete', onClick: (commentId) => console.log(`Deleted ${commentId}`) }
+      ],
     },
     {
       author: {
@@ -47,9 +46,6 @@ export default function Playground() {
     }
   ];
 
-  const comments = response.sort((lhs, rhs) => (
-    (lhs.createdDate < rhs.createdDate ? -1 : 1)));
- 
   return (
     <Container>
       <CommentBox
@@ -59,31 +55,21 @@ export default function Playground() {
           imageUrl: 'https://picsum.photos/200/200/?image=0',
           url: null,
         }}
-      >
-        <CommentList>
-          {comments.map(comment => (
-            <Comment
-              {...comment}
-              key={comment.id}
-              actions={[
-                {
-                  label: 'Delete',
-                  onClick: (id) => console.log(`Delete ${id}`)
-                }
-              ]}
-              translate={{
-                label: 'Translate',
-                onClick: (id) => console.log(`Translate ${id}`)
-              }}
-            />
-          ))}
-        </CommentList>
-        <CommentForm
-          onSubmit={text => console.log(`Submit ${text}`)}
-          placeholder="Write a comment..."
-          submitLabel="Post"
-        />
-      </CommentBox>
+        comments={
+          comments.sort((a, b) =>
+            (a.createdDate < b.createdDate ? -1 : 1))
+        }
+        placeholder="Write a comment..."
+        onTranslate={commentId => {}}
+        onSubmit={(plainText, html, json) => {}} /* NOTE: Return only text, return data object with all or just return the plaintext? */
+        mention={{
+          pattern: '/^[A-Za-z\sÅÄÖåäö]*$/',
+          denotations: ['@', '#'],
+          onChange: (searchTerm, renderList, denotation) => {}
+        }}
+      />
     </Container>
   );
-}
+};
+
+export default Playground;
