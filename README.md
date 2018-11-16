@@ -2,7 +2,7 @@
 [![npm version](https://badge.fury.io/js/%40afconsult%2Fapollo-comments.svg)](https://badge.fury.io/js/%40afconsult%2Fapollo-comments)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 <br />
-React Comments Plugin for ([Apollo](https://github.com/afconsult/apollo))
+React Comments Plugin for [Apollo](https://github.com/afconsult/apollo)
 
 ![Demo](./docs/screenshot.PNG)
 
