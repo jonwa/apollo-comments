@@ -24,6 +24,7 @@
 
 .comment-form-group:first-child {
   display: none;
+  cursor: pointer;
 }
 
 .comment-form-group:last-child {
