@@ -14,8 +14,9 @@ import * as styles from './Comment.css';
 
 const authorPropType = PropTypes.shape({
   displayName: PropTypes.string,
+  id: PropTypes.string,
   imageUrl: PropTypes.string,
-  url: PropTypes.string,
+  onClick: PropTypes.func,
 });
 
 const propTypes = {
@@ -30,18 +31,20 @@ const propTypes = {
 };
 
 const defaultProps = {
-  actions: undefined,
+  actions: [],
   author: {
-    displayName: undefined,
-    imageUrl: undefined,
-    url: undefined,
+    displayName: null,
+    id: null,
+    imageUrl: null,
+    url: null,
   },
-  createdDate: undefined,
-  id: undefined,
-  text: undefined,
+  createdDate: null,
+  id: null,
+  text: null,
 };
 
 const contextTypes = {
+  dateFormat: PropTypes.string,
   onTranslate: PropTypes.func,
 };
 
@@ -73,19 +76,23 @@ class Comment extends React.Component {
     } = this.props;
 
     const {
+      dateFormat,
       onTranslate,
     } = this.context;
 
     return (
       <div className={styles.comment}>
-        <Avatar
-          className={styles['comment-author-avatar']}
-          name={author.displayName}
-          size="small"
-          src={author.imageUrl}
-        />
+        <div>
+          <Avatar
+            className={styles['comment-author-avatar']}
+            name={author.displayName}
+            onClick={() => author.onClick(author.id)}
+            size="small"
+            src={author.imageUrl}
+          />
+        </div>
         <div className={styles['comment-body']}>
-          {actions ? (
+          {(actions.length > 0) ? (
             <BasicDropdown className={styles['comment-actions-dropdown']}>
               <DropdownToggle className={styles['comment-actions-dropdown-toggle']}> {/* eslint-disable-line react/jsx-no-literals */}
                 ...
@@ -101,9 +108,11 @@ class Comment extends React.Component {
               </DropdownMenu>
             </BasicDropdown>
           ) : null}
-          <p className={styles['comment-author-name']}>{author.displayName}</p>
+          <button className={styles['comment-author-name']} onClick={() => author.onClick(author.id)}>
+            {author.displayName}
+          </button>
           <p className={styles['comment-text']} dangerouslySetInnerHTML={{ __html: text }} />
-          <small>{moment(createdDate).format('YYYY-MM-DD HH:mm:ss')}</small>
+          <small>{moment(createdDate).format(dateFormat)}</small>
           {onTranslate && (
             <Button
               className={styles['button-translate']}
@@ -114,6 +123,7 @@ class Comment extends React.Component {
             </Button>
           )}
         </div>
+        <div style={{ clear: 'both' }} />
       </div>
     );
   }

@@ -13,26 +13,29 @@
 
 .comment-body {
   display: inline-block;
-  vertical-align: middle;
+  vertical-align: top;
+  margin-left: 40px;
+  margin-top: -40px;
   padding-left: 12px;
-}
-
-@media (--tablet) {
-  .comment-body {
-    padding-left: 12px;
-  }
-}
-
-.comment-body p {
-  margin-bottom: 2.5px;
 }
 
 .comment-body .comment-text {
   white-space: pre-wrap;
 }
 
-.comment-body .comment-author-name {
+.comment-body button.comment-author-name {
   font-weight: bold;
+  margin-bottom: 2rem;
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  padding-left: 0;
+}
+
+.comment-body button.comment-author-name:hover,
+.comment-body button.comment-author-name:focus {
+  outline: none;
+  color: var(--day, blue);
 }
 
 .comment-body small {
@@ -41,7 +44,8 @@
 
 .comment-author-avatar {
   display: inline-block;
-  vertical-align: top !important;
+  vertical-align: top;
+  cursor: pointer;
 }
 
 .comment-actions-dropdown {

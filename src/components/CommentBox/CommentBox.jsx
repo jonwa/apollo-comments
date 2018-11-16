@@ -8,8 +8,9 @@ import * as styles from './CommentBox.css';
 
 const authorPropType = PropTypes.shape({
   displayName: PropTypes.string,
+  id: PropTypes.string,
   imageUrl: PropTypes.string,
-  url: PropTypes.string,
+  onClick: PropTypes.func,
 });
 
 const commentPropType = PropTypes.shape({
@@ -31,10 +32,11 @@ const mentionPropType = PropTypes.shape({
 });
 
 const propTypes = {
-  author: authorPropType,
+  author: authorPropType.isRequired,
   comments: PropTypes.arrayOf(commentPropType),
+  dateFormat: PropTypes.string,
   mention: mentionPropType,
-  onSubmit: PropTypes.func,
+  onSubmit: PropTypes.func.isRequired,
   onTranslate: PropTypes.func,
   placeholder: PropTypes.string,
   tag: PropTypes.string,
@@ -42,27 +44,18 @@ const propTypes = {
 };
 
 const defaultProps = {
-  author: {
-    displayName: undefined,
-    imageUrl: undefined,
-    url: undefined,
-  },
-  comments: undefined,
-  mention: {
-    allowedChars: /^[A-Za-z\sÅÄÖåäö]*$/,
-    denotationChars: ['@'],
-    onRenderItem: undefined,
-    onSource: undefined,
-  },
-  onSubmit: undefined,
-  onTranslate: undefined,
-  placeholder: undefined,
+  comments: [],
+  dateFormat: 'YYYY-MM-DD HH:mm:ss',
+  mention: null,
+  onTranslate: null,
+  placeholder: null,
   tag: 'div',
-  title: undefined,
+  title: null,
 };
 
 const childContextTypes = {
   author: authorPropType,
+  dateFormat: PropTypes.string,
   mention: mentionPropType,
   onSubmit: PropTypes.func,
   onTranslate: PropTypes.func,
@@ -72,6 +65,7 @@ class CommentBox extends React.PureComponent {
   getChildContext() {
     const {
       author,
+      dateFormat,
       onSubmit,
       onTranslate,
       mention,
@@ -79,6 +73,7 @@ class CommentBox extends React.PureComponent {
 
     return {
       author,
+      dateFormat,
       mention,
       onSubmit,
       onTranslate,

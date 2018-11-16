@@ -13,8 +13,9 @@ require('quill-mention');
 
 const authorPropType = PropTypes.shape({
   displayName: PropTypes.string,
+  id: PropTypes.string,
   imageUrl: PropTypes.string,
-  url: PropTypes.string,
+  onClick: PropTypes.func,
 });
 
 const mentionPropType = PropTypes.shape({
@@ -29,7 +30,7 @@ const propTypes = {
 };
 
 const defaultProps = {
-  placeholder: 'Write a comment...',
+  placeholder: null,
 };
 
 const contextTypes = {
@@ -49,7 +50,6 @@ class CommentForm extends React.Component {
 
   handleKeyDown(e) {
     if (!e.shiftKey && e.keyCode === 13) {
-      e.preventDefault();
       this.handleSubmit(e);
     }
   }
@@ -70,22 +70,29 @@ class CommentForm extends React.Component {
   }
 
   handleChange(content, delta, source, editor) {
-    const { getText } = editor;
-    this.setState({ disabled: !getText(), editor }); // eslint-disable-line
+    const { getLength } = editor;
+    // TODO(jon): Does not work due to quill mention!
+    this.setState({ disabled: getLength() === 1, editor: editor }); // eslint-disable-line
   }
 
   render() {
     const { disabled } = this.state;
     const { author, mention } = this.context;
     const { placeholder } = this.props;
+    let mentionOptions = null;
 
-    const modules = {
-      mention: {
+    // TODO(jon): only add mention if mention is not null;
+    if (mention) {
+      mentionOptions = {
         allowedChars: mention.allowedChars,
         mentionDenotationChars: mention.denotationChars,
         renderItem: mention.onRenderItem,
         source: mention.onSource
-      },
+      };
+    }
+
+    const modules = {
+      mention: mentionOptions,
       toolbar: null,
     };
 
@@ -94,6 +101,7 @@ class CommentForm extends React.Component {
         <FormGroup className={styles['comment-form-group']}>
           <Avatar
             name={author.displayName}
+            onClick={() => author.onClick(author.id)}
             size="medium"
             src={author.imageUrl}
           />
