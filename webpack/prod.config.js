@@ -1,4 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
+const path = require('path');
 const merge = require('webpack-merge');
 const baseConfig = require('./base.config.js');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
@@ -6,13 +7,18 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = merge(baseConfig, {
-  devtool: 'source-map',
   externals: {
     '@afconsult/apollo': '@afconsult/apollo',
     classnames: 'classnames',
+    moment: 'moment',
+    'normalize.css': 'normalize.css',
     'prop-types': 'prop-types',
+    quill: 'quill',
+    'quill-mention': 'quill-mention',
     react: 'react',
     'react-dom': 'react-dom',
+    'react-quill': 'react-quill',
+    shortid: 'shortid',
   },
   mode: 'production',
   module: {
@@ -29,16 +35,18 @@ module.exports = merge(baseConfig, {
     ],
   },
   output: {
-    filename: 'js/apollo-comments.min.js',
+    filename: 'apollo-comments.min.js',
     libraryTarget: 'umd',
   },
   plugins: [
-    new CleanWebpackPlugin(['dist']),
-    new MiniCssExtractPlugin({
-      filename: 'css/apollo-comments.css',
+    new CleanWebpackPlugin(['dist'], {
+      root: path.resolve(__dirname, '../'),
     }),
     new UglifyJSPlugin({
-      sourceMap: true,
+      extractComments: true,
+    }),
+    new MiniCssExtractPlugin({
+      filename: 'apollo-comments.min.css',
     }),
   ],
 });

@@ -42,11 +42,11 @@
   }
 }
 
-.comment-form-group > .textarea {
+.comment-form-textarea {
   width: 100%;
   resize: none;
 }
 
-.comment-form-group > .textarea > div {
+.comment-form-textarea > div {
   border-radius: 6px;
 }

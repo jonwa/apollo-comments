@@ -1,39 +1,49 @@
 /* eslint-disable import/no-extraneous-dependencies */
+const webpack = require('webpack');
 const merge = require('webpack-merge');
 const baseConfig = require('./base.config.js');
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const HTMLWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = merge(baseConfig, {
-  devtool: 'source-map',
+  devServer: {
+    contentBase: './playground',
+  },
+  devtool: 'inline-source-map',
+  entry: ['react-hot-loader/patch', './playground/index.jsx'],
   mode: 'development',
   module: {
     rules: [
       {
+        test: /\.html$/,
+        use: [
+          {
+            loader: 'html-loader',
+            options: {
+              minimize: false,
+            },
+          },
+        ],
+      },
+      {
         test: /\.css$/,
         use: [
-          MiniCssExtractPlugin.loader,
-          'css-loader?minimize&modules=true&localIdentName=apollo-[local]',
+          {
+            loader: 'style-loader',
+            options: {
+              // Insert styles where portal.css is (which is at the top)
+              insertAt: 'top'
+            },
+          },
+          'css-loader?modules=true&localIdentName=[local]',
           'postcss-loader',
-        ],
+        ]
       },
     ],
   },
-  output: {
-    filename: 'js/apollo-comments.js',
-    libraryTarget: 'umd',
-  },
   plugins: [
-    new MiniCssExtractPlugin({
-      filename: 'css/apollo-comments.css',
+    new HTMLWebpackPlugin({
+      template: './playground/index.html',
     }),
-    new UglifyJSPlugin({
-      sourceMap: true,
-      uglifyOptions: {
-        output: {
-          beautify: true,
-        },
-      },
-    }),
-  ],
+    new webpack.HotModuleReplacementPlugin(),
+  ]
 });

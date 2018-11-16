@@ -108,7 +108,7 @@ class CommentForm extends React.Component {
         </FormGroup>
         <FormGroup className={styles['comment-form-group']}>
           <ReactQuill
-            className={styles.textarea}
+            className={styles['comment-form-textarea']}
             modules={modules}
             onChange={this.handleChange}
             onKeyDown={this.handleKeyDown}
