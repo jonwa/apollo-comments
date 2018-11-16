@@ -117,14 +117,12 @@ class MyComponent extends React.Component {
 | ---------- | -------------- | ------------ |
 | `id` | `null` | A unique string ID used to identify the comment. |
 | `author` | `{}` | An object describing the author of the comment. The object should specify an `id`, `displayName`, `imageUrl` and `onClick(authorId)`. |
-| `createdDate` | `undefined` | A string representation of a date for when the comment was created. |
+| `createdDate` | `null` | A string representation of a date for when the comment was created. |
 | `text` | `null` | Text for the comment. Can be a string containing HTML. |
 | `actions` | `[]` | An array of objects specifying custom actions that can be applied to edit the comment. Each action requires a `label` and `onClick(commentId)`. |
 
 `dateFormat`
 : A [Moment.js](https://momentjs.com/docs/#/displaying/format/) string token. Default is `YYYY-MM-DD HH:mm:ss`
-
-This is the most robust display option. It takes a string of tokens and replaces them with their corresponding values.
 
 `mention`
 : (**_optional_**) An object specifying necessary options module [Quill Mention](https://github.com/afconsult/quill-mention) module. Default is `null`.
@@ -133,8 +131,8 @@ This is the most robust display option. It takes a string of tokens and replaces
 | ---------- | -------------- | ------------ |
 | `allowedChars` | `[a-zA-Z0-9_]` | Allowed characters in search term triggering a search request using regular expressions. |
 | `denotationChars` | `['@']` | Specifies which characters will cause the quill mention autocomplete to open. |
-| `onRenderItem(item, searchTerm)` | `undefined` | A function that gives you control over how matches from source are displayed. You can use this function to highlight the search term or change the design with custom HTML. |
-| `onSource(searchTerm, renderList, denotationChar)` | `undefined` |  Required callback function to handle the search term and connect it to a data source for matches. The data source can be a local source or an AJAX request. The callback should call `renderList(matches, searchTerm);` with matches of JSON Objects in an array to show the result for the user. The JSON Objects should have `id` and `value` but can also have other values to be used in `renderItem` for custom display. |
+| `onRenderItem(item, searchTerm)` | `null` | A function that gives you control over how matches from source are displayed. You can use this function to highlight the search term or change the design with custom HTML. |
+| `onSource(searchTerm, renderList, denotationChar)` | `null` |  Required callback function to handle the search term and connect it to a data source for matches. The data source can be a local source or an AJAX request. The callback should call `renderList(matches, searchTerm);` with matches of JSON Objects in an array to show the result for the user. The JSON Objects should have `id` and `value` but can also have other values to be used in `renderItem` for custom display. |
 
 `onSubmit(editor)`
 : (**_required_**) Called back with the [React Quill](https://github.com/zenoamaro/react-quill/blob/master/README.md) editor after submit.
