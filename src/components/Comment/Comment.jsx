@@ -91,31 +91,31 @@ class Comment extends React.Component {
             src={author.imageUrl}
           />
         </div>
+        {(actions.length > 0) ? (
+          <BasicDropdown className={styles['comment-actions-dropdown']}>
+            <DropdownToggle className={styles['comment-actions-dropdown-toggle']}> {/* eslint-disable-line react/jsx-no-literals */}
+              ...
+            </DropdownToggle>
+            <DropdownMenu right>
+              {actions.map(action => (
+                <DropdownItem
+                  key={shortid.generate()}
+                  onClick={() => action.onClick(id)}
+                >{action.label}
+                </DropdownItem>
+              ))}
+            </DropdownMenu>
+          </BasicDropdown>
+        ) : null}
         <div className={styles['comment-body']}>
-          {(actions.length > 0) ? (
-            <BasicDropdown className={styles['comment-actions-dropdown']}>
-              <DropdownToggle className={styles['comment-actions-dropdown-toggle']}> {/* eslint-disable-line react/jsx-no-literals */}
-                ...
-              </DropdownToggle>
-              <DropdownMenu right>
-                {actions.map(action => (
-                  <DropdownItem
-                    key={shortid.generate()}
-                    onClick={() => action.onClick(id)}
-                  >{action.label}
-                  </DropdownItem>
-                ))}
-              </DropdownMenu>
-            </BasicDropdown>
-          ) : null}
-          <button className={styles['comment-author-name']} onClick={() => author.onClick(author.id)}>
+          <button className={styles['comment-body-author-name']} onClick={() => author.onClick(author.id)}>
             {author.displayName}
           </button>
-          <p className={styles['comment-text']} dangerouslySetInnerHTML={{ __html: text }} />
-          <small>{moment(createdDate).format(dateFormat)}</small>
+          <p className={styles['comment-body-text']} dangerouslySetInnerHTML={{ __html: text }} />
+          <small className={styles['comment-body-date']}>{moment(createdDate).format(dateFormat)}</small>
           {onTranslate && (
             <Button
-              className={styles['button-translate']}
+              className={styles['comment-button-translate']}
               color="link"
               onClick={this.handleTranslate}
               size="small"
@@ -123,7 +123,6 @@ class Comment extends React.Component {
             </Button>
           )}
         </div>
-        <div style={{ clear: 'both' }} />
       </div>
     );
   }

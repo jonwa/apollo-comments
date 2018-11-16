@@ -7,6 +7,19 @@
   "author": "afconsult",
   "license": "MIT",
   "private": false,
+  "keywords": [
+    "afconsult",
+    "apollo",
+    "apollo-comments",
+    "react",
+    "components"
+  ],
+  "files": [
+    "dist/",
+    "index.js",
+    "LICENSE",
+    "README.md"
+  ],
   "dependencies": {
     "@afconsult/apollo": "^1.1.2",
     "classnames": "^2.2.6",
@@ -30,8 +43,7 @@
     "check": "npm-run-all lint test",
     "check:ci": "npm-run-all lint test:ci",
     "build": "webpack --config ./webpack/prod.config.js",
-    "build:dev": "webpack --config ./webpack/dev.config.js",
-    "start": "webpack-dev-server --open --config ./webpack/test.config.js"
+    "start": "webpack-dev-server --open --config ./webpack/dev.config.js"
   },
   "devDependencies": {
     "autoprefixer": "^8.0.0",
