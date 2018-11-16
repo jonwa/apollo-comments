@@ -4,6 +4,8 @@
 <br />
 React Comments Plugin for ([Apollo](https://github.com/afconsult/apollo))
 
+![Demo](./docs/screenshot.png)
+
 ## Getting Started
 ### Install
 Install with npm:
@@ -138,7 +140,7 @@ This is the most robust display option. It takes a string of tokens and replaces
 : (**_required_**) Called back with the [React Quill](https://github.com/zenoamaro/react-quill/blob/master/README.md) editor after submit.
 
 `onTranslate(commentId)`
-: Called back with the comment id that has been requested to translate. Default as `null`.
+: Called back with the comment id that has been requested to translate. Will display a button next to each comment's date if assigned. Default as `null`.
 
 `placeholder`
 : Specifying a short hint that describes the expected value of the input field. Default is `null`.
