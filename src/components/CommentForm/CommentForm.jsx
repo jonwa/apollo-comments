@@ -42,10 +42,16 @@ const contextTypes = {
 class CommentForm extends React.Component {
   constructor(props, context) {
     super(props, context);
-    this.state = { disabled: true, editor: null };
+    this.state = { disabled: true, value: undefined };
+    this.reactQuillRef = React.createRef();
+    this.handleChange = this.handleChange.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
+    // this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(value) {
+    this.setState({ value });
   }
 
   handleKeyDown(e) {
@@ -55,7 +61,6 @@ class CommentForm extends React.Component {
   }
 
   handleSubmit(e) {
-    const { editor } = this.state;
     const { onSubmit } = this.context;
 
     if (!onSubmit) {
@@ -63,25 +68,23 @@ class CommentForm extends React.Component {
       return;
     }
 
-    if (editor) {
-      onSubmit(editor);
-      this.setState({ disabled: true, editor: undefined });
-    }
-  }
+    const {
+      getEditor,
+      makeUnprivilegedEditor,
+    } = this.reactQuillRef;
 
-  handleChange(content, delta, source, editor) {
-    const { getLength } = editor;
-    // TODO(jon): Does not work due to quill mention!
-    this.setState({ disabled: getLength() === 1, editor: editor }); // eslint-disable-line
+    const editor = makeUnprivilegedEditor(getEditor());
+    onSubmit(editor);
+
+    this.setState({ disabled: true, value: undefined });
   }
 
   render() {
-    const { disabled } = this.state;
+    const { disabled, value } = this.state;
     const { author, mention } = this.context;
     const { placeholder } = this.props;
     let mentionOptions = null;
 
-    // TODO(jon): only add mention if mention is not null;
     if (mention) {
       mentionOptions = {
         allowedChars: mention.allowedChars,
@@ -108,11 +111,13 @@ class CommentForm extends React.Component {
         </FormGroup>
         <FormGroup className={styles['comment-form-group']}>
           <ReactQuill
+            ref={(el) => { this.reactQuillRef = el; }}
             className={styles['comment-form-textarea']}
             modules={modules}
             onChange={this.handleChange}
             onKeyDown={this.handleKeyDown}
             placeholder={placeholder}
+            value={value}
           />
         </FormGroup>
         <FormGroup className={styles['comment-form-group']}>
