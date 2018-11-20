@@ -42,12 +42,17 @@ const contextTypes = {
 class CommentForm extends React.Component {
   constructor(props, context) {
     super(props, context);
-    this.state = { disabled: true, value: undefined };
+    this.state = {
+      disabled: true,
+      mentionOpen: false,
+      value: undefined,
+    };
     this.reactQuillRef = React.createRef();
     this.handleChange = this.handleChange.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    // this.handleChange = this.handleChange.bind(this);
+    this.handleMentionOpen = this.handleMentionOpen.bind(this);
+    this.handleMentionClose = this.handleMentionClose.bind(this);
   }
 
   handleChange(value) {
@@ -55,6 +60,11 @@ class CommentForm extends React.Component {
   }
 
   handleKeyDown(e) {
+    const { mentionOpen } = this.state;
+    if (mentionOpen) {
+      return;
+    }
+
     if (!e.shiftKey && e.keyCode === 13) {
       this.handleSubmit(e);
     }
@@ -79,6 +89,14 @@ class CommentForm extends React.Component {
     this.setState({ disabled: true, value: undefined });
   }
 
+  handleMentionOpen() {
+    this.setState({ mentionOpen: true });
+  }
+
+  handleMentionClose() {
+    setTimeout(() => this.setState({ mentionOpen: false }), 100);
+  }
+
   render() {
     const { disabled, value } = this.state;
     const { author, mention } = this.context;
@@ -89,6 +107,8 @@ class CommentForm extends React.Component {
       mentionOptions = {
         allowedChars: mention.allowedChars,
         mentionDenotationChars: mention.denotationChars,
+        onClose: this.handleMentionClose,
+        onOpen: this.handleMentionOpen,
         renderItem: mention.onRenderItem,
         source: mention.onSource
       };
