@@ -8,7 +8,10 @@ import * as styles from './CommentBox.css';
 
 const authorPropType = PropTypes.shape({
   displayName: PropTypes.string,
-  id: PropTypes.string,
+  id: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string,
+  ]),
   imageUrl: PropTypes.string,
   onClick: PropTypes.func,
 });
@@ -20,7 +23,10 @@ const commentPropType = PropTypes.shape({
   })),
   author: authorPropType,
   createdDate: PropTypes.string,
-  id: PropTypes.string,
+  id: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string,
+  ]),
   text: PropTypes.string,
 });
 

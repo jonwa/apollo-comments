@@ -14,7 +14,10 @@ import * as styles from './Comment.css';
 
 const authorPropType = PropTypes.shape({
   displayName: PropTypes.string,
-  id: PropTypes.string,
+  id: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string,
+  ]),
   imageUrl: PropTypes.string,
   onClick: PropTypes.func,
 });
@@ -26,7 +29,10 @@ const propTypes = {
   })),
   author: authorPropType,
   createdDate: PropTypes.string,
-  id: PropTypes.string,
+  id: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string,
+  ]),
   text: PropTypes.string,
 };
 
