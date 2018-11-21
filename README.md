@@ -4,8 +4,6 @@
 <br />
 React Comments Plugin for [Apollo](https://github.com/afconsult/apollo)
 
-![Demo](./docs/screenshot.png)
-
 ## Getting Started
 ### Install
 Install with npm:
