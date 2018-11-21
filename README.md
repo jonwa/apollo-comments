@@ -20,7 +20,7 @@ yarn add @afconsult/apollo-comments
 ### Example
 1. import the stylesheet:
 ```javscript
-import '@afconsult/apollo/dist/css/apollo-comments.css';
+import '@afconsult/apollo-comments/dist/apollo-comments.css';
 ```
 
 2. Import the component:
@@ -35,35 +35,37 @@ class MyComponent extends React.Component {
     super(props);
 
     this.author = {
-      id: '77bfcd2a-b243-435d-8666-784ab4fa87fd',
+      id: 8653303542,
       displayName: 'Willow Mcdonald',
       imageUrl: 'https://picsum.photos/200/200/?image=0',
-      onClick: (authorId) => { console.log(authorId); },
+      onClick: (authorId) => { },
     };
 
     this.comments = [
       {
-        id: shortid.generate(),
+        id: 0,
         author: {
+          id: 8653303542,
           displayName: 'Willow Mcdonald',
-          id: '77bfcd2a-b243-435d-8666-784ab4fa87fd',
           imageUrl: 'https://picsum.photos/200/200/?image=0',
-          onClick: (authorId) => { console.log(authorId) }
+          onClick: (authorId) => { }
         },
-        createdDate: new Date(2018, 1, 1).toJSON(),
-        text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc dictum ipsum eu erat sagittis elementum...',
-        actions: [{ label: 'Delete', onClick: (commentId) => console.log(`Deleted ${commentId}`) }],
+        createdDate: new Date(2018, 1, 1, 9, 4, 59).toString(),
+        text: 'Twee flannel poke knausgaard dreamcatcher normcore iPhone.',
+        actions: [
+          { label: 'Delete', onClick: (commentId) => { } }
+        ],
       },
       {
-        id: shortid.generate(),
+        id: 1,
         author: {
+          id: 9269792615,
           displayName: 'Cian Fernandez',
-          id: '0ea33d62-db04-4923-8bea-170bd99cb65f',
           imageUrl: 'https://picsum.photos/200/200/?image=1',
-          onClick: (authorId) => { console.log(authorId) }
+          onClick: (authorId) => { }
         },
-        createdDate: new Date(2018, 1, 13).toJSON(),
-        text: '<b>Lorem</b> ipsum dolor sit amet, consectetur adipiscing elit. \nNunc dictum ipsum eu erat sagittis elementum...',
+        createdDate: new Date(2018, 1, 13, 13, 45, 12).toString(),
+        text: 'Quinoa gluten-free single-origin coffee chambray.',
       },
     ];
 
@@ -72,8 +74,8 @@ class MyComponent extends React.Component {
       denotationChars: ['@'],
       onSource: (searchTerm, renderList, denotationChar) => {
         const items = [
-          { id: 'ee2aec62-5a1b-46b3-a093-c6ce2ef244dd', value: 'Annabelle Robinson' },
-          { id: 'c4f3548c-0090-4bae-8536-cc320d8035bf', value: 'Brodie Stevenson' }
+          { id: 5801740633, value: 'Annabelle Robinson' },
+          { id: 9140877053, value: 'Brodie Stevenson' }
         ];
 
         if (searchTerm.length === 0) {
