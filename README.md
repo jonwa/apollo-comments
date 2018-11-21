@@ -20,7 +20,7 @@ yarn add @afconsult/apollo-comments
 ### Example
 1. import the stylesheet:
 ```javscript
-import '@afconsult/apollo/dist/css/apollo-comments.css';
+import '@afconsult/apollo-comments/dist/apollo-comments.css';
 ```
 
 2. Import the component:
