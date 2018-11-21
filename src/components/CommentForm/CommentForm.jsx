@@ -13,7 +13,10 @@ require('quill-mention');
 
 const authorPropType = PropTypes.shape({
   displayName: PropTypes.string,
-  id: PropTypes.string,
+  id: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string,
+  ]),
   imageUrl: PropTypes.string,
   onClick: PropTypes.func,
 });
