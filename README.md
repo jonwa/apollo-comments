@@ -26,7 +26,7 @@ import '@afconsult/apollo-comments/dist/apollo-comments.css';
 import CommentBox from '@afconsult/apollo-comments';
 ```
 
-3. Use the component
+3. Use the component:
 ```javascript
 class MyComponent extends React.Component {
   constructor(props) {
