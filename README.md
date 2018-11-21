@@ -16,7 +16,7 @@ yarn add @afconsult/apollo-comments
 ```
 
 ### Example
-1. import the stylesheet:
+1. Import the stylesheet:
 ```javscript
 import '@afconsult/apollo-comments/dist/apollo-comments.css';
 ```
