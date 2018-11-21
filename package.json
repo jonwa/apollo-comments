@@ -3,10 +3,14 @@
   "version": "1.0.0",
   "description": "React Comments Plugin",
   "main": "index.js",
-  "repository": "https://github.com/afconsult/apollo-comments",
+  "repository": "https://github.com/afconsult/apollo-comments.git",
   "author": "afconsult",
   "license": "MIT",
   "private": false,
+  "bugs": {
+    "url": "https://github.com/afconsult/apollo-comments/issues"
+  },
+  "homepage": "https://github.com/afconsult/apollo-comments#readme",
   "keywords": [
     "afconsult",
     "apollo",
@@ -20,6 +24,17 @@
     "LICENSE",
     "README.md"
   ],
+  "scripts": {
+    "publish": "npm publish",
+    "lint": "eslint . --max-warnings 0",
+    "test": "jest",
+    "test:ci": "yarn run test --runInBand",
+    "test:watch": "yarn run test --watch",
+    "check": "npm-run-all lint test",
+    "check:ci": "npm-run-all lint test:ci",
+    "build": "webpack --config ./webpack/prod.config.js",
+    "start": "webpack-dev-server --open --config ./webpack/dev.config.js"
+  },
   "dependencies": {
     "@afconsult/apollo": "^1.1.2",
     "classnames": "^2.2.6",
@@ -32,17 +47,6 @@
     "react-dom": "^16.4.2",
     "react-quill": "^1.3.2",
     "shortid": "^2.2.13"
-  },
-  "scripts": {
-    "publish": "npm publish",
-    "lint": "eslint . --max-warnings 0",
-    "test": "jest",
-    "test:ci": "yarn run test --runInBand",
-    "test:watch": "yarn run test --watch",
-    "check": "npm-run-all lint test",
-    "check:ci": "npm-run-all lint test:ci",
-    "build": "webpack --config ./webpack/prod.config.js",
-    "start": "webpack-dev-server --open --config ./webpack/dev.config.js"
   },
   "devDependencies": {
     "autoprefixer": "^8.0.0",
