@@ -1,2 +1,2 @@
-module.exports = require('./dist/apollo-comments.min.js');
+module.exports = require('./dist/apollo-comments.js');
 
