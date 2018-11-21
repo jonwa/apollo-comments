@@ -35,7 +35,7 @@ module.exports = merge(baseConfig, {
     ],
   },
   output: {
-    filename: 'apollo-comments.min.js',
+    filename: 'apollo-comments.js',
     libraryTarget: 'umd',
   },
   plugins: [
@@ -46,7 +46,7 @@ module.exports = merge(baseConfig, {
       extractComments: true,
     }),
     new MiniCssExtractPlugin({
-      filename: 'apollo-comments.min.css',
+      filename: 'apollo-comments.css',
     }),
   ],
 });
