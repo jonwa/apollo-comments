@@ -1,6 +1,6 @@
 {
   "name": "@afconsult/apollo-comments",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "React Comments Plugin",
   "main": "index.js",
   "repository": "https://github.com/afconsult/apollo-comments.git",
