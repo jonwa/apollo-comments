@@ -25,7 +25,9 @@
     "README.md"
   ],
   "scripts": {
-    "publish": "npm publish",
+    "publish:yarn": "cross-var yarn publish --new-version $npm_package_version",
+    "release:it": "release-it --config ./.release-it.json",
+    "release": "npm-run-all release:it publish:yarn",
     "lint": "eslint . --max-warnings 0",
     "test": "jest",
     "test:ci": "yarn run test --runInBand",
@@ -59,6 +61,7 @@
     "babel-preset-react": "^6.24.1",
     "clean-webpack-plugin": "^0.1.19",
     "cross-env": "^5.1.3",
+    "cross-var": "^1.1.0",
     "css-loader": "0.28.9",
     "cssnano": "^3.10.0",
     "enzyme": "^3.3.0",
@@ -87,6 +90,7 @@
     "postcss-reporter": "^6.0.0",
     "react-hot-loader": "^3.1.3",
     "react-test-renderer": "^16.2.0",
+    "release-it": "^8.0.1",
     "renamer": "^0.6.1",
     "rimraf": "^2.6.2",
     "style-loader": "^0.23.1",
