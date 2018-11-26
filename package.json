@@ -25,8 +25,6 @@
     "README.md"
   ],
   "scripts": {
-    "release": "release-it --config ./.release-it.json",
-    "publish": "cross-var yarn publish --new-version $npm_package_version",
     "lint": "eslint . --max-warnings 0",
     "test": "jest",
     "test:ci": "yarn run test --runInBand",
@@ -34,6 +32,8 @@
     "check": "npm-run-all lint test",
     "check:ci": "npm-run-all lint test:ci",
     "build": "webpack --config ./webpack/prod.config.js",
+    "release": "release-it --config ./.release-it.json",
+    "publish": "cross-var yarn publish --new-version $npm_package_version",
     "start": "webpack-dev-server --open --config ./webpack/dev.config.js"
   },
   "dependencies": {
