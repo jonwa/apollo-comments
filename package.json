@@ -32,7 +32,7 @@
     "check": "npm-run-all lint test",
     "check:ci": "npm-run-all lint test:ci",
     "build": "webpack --config ./webpack/prod.config.js",
-    "release": "release-it --config ./.release-it.json",
+    "release": "release-it --config ./.release-it.json -n",
     "publish": "cross-var yarn publish --new-version $npm_package_version",
     "start": "webpack-dev-server --open --config ./webpack/dev.config.js"
   },
