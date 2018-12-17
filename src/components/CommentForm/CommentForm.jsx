@@ -58,8 +58,11 @@ class CommentForm extends React.Component {
     this.handleMentionClose = this.handleMentionClose.bind(this);
   }
 
-  handleChange(value) {
-    this.setState({ value });
+  handleChange(value, delta, source, editor) {
+    this.setState(() => ({
+      disabled: editor.getLength() === 1,
+      value
+    }));
   }
 
   handleKeyDown(e) {
@@ -89,7 +92,10 @@ class CommentForm extends React.Component {
     const editor = makeUnprivilegedEditor(getEditor());
     onSubmit(editor);
 
-    this.setState({ disabled: true, value: undefined });
+    this.setState(() => ({
+      disabled: true,
+      value: undefined
+    }));
   }
 
   handleMentionOpen() {
@@ -140,7 +146,7 @@ class CommentForm extends React.Component {
             onChange={this.handleChange}
             onKeyDown={this.handleKeyDown}
             placeholder={placeholder}
-            value={value}
+            value={value || ''}
           />
         </FormGroup>
         <FormGroup className={styles['comment-form-group']}>
