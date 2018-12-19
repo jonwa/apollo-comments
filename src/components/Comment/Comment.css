@@ -36,16 +36,23 @@
 }
 
 .comment-body-text {
+  margin-top: 1.5rem;
   white-space: pre-wrap;
 }
 
 .comment-body-author-name {
-  font-weight: bold;
-  margin-bottom: 2rem;
-  cursor: pointer;
   background-color: transparent;
   border: none;
+  cursor: pointer;
+  font-weight: bold;
   padding-left: 0;
+}
+
+.comment-body-author-title {
+  color: #6c757d;
+  font-size: 13px;
+  line-height: 13px;
+  display: block;
 }
 
 .comment-body-author-name:hover,

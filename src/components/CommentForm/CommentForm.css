@@ -50,3 +50,7 @@
 .comment-form-textarea > div {
   border-radius: 6px;
 }
+
+.comment-form-textarea .ql-editor {
+  padding: 12px 15px !important;
+}

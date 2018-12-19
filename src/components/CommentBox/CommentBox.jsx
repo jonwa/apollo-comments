@@ -8,6 +8,7 @@ import * as styles from './CommentBox.css';
 
 const authorPropType = PropTypes.shape({
   displayName: PropTypes.string,
+  displayTitle: PropTypes.string,
   id: PropTypes.oneOfType([
     PropTypes.number,
     PropTypes.string,

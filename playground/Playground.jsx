@@ -21,7 +21,8 @@ class Playground extends React.Component {
         id: 0,
         author: {
           id: 8653303542,
-          displayName: 'Willow Mcdonald',
+          displayName: 'Willow McDonald',
+          displayTitle: 'CEO McDonalds',
           imageUrl: 'https://picsum.photos/200/200/?image=0',
           onClick: (authorId) => { }
         },

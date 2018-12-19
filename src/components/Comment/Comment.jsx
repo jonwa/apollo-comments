@@ -14,6 +14,7 @@ import * as styles from './Comment.css';
 
 const authorPropType = PropTypes.shape({
   displayName: PropTypes.string,
+  displayTitle: PropTypes.string,
   id: PropTypes.oneOfType([
     PropTypes.number,
     PropTypes.string,
@@ -40,6 +41,7 @@ const defaultProps = {
   actions: [],
   author: {
     displayName: null,
+    displayTitle: null,
     id: null,
     imageUrl: null,
     url: null,
@@ -117,6 +119,9 @@ class Comment extends React.Component {
           <button className={styles['comment-body-author-name']} onClick={() => author.onClick(author.id)}>
             {author.displayName}
           </button>
+          {
+            author.displayTitle && (<span className={styles['comment-body-author-title']}>{author.displayTitle}</span>)
+          }
           <p className={styles['comment-body-text']} dangerouslySetInnerHTML={{ __html: text }} />
           <small className={styles['comment-body-date']}>{moment(createdDate).format(dateFormat)}</small>
           {onTranslate && (
