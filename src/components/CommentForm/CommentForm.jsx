@@ -53,7 +53,6 @@ class CommentForm extends React.Component {
     };
     this.reactQuillRef = React.createRef();
     this.handleChange = this.handleChange.bind(this);
-    this.handleKeyDown = this.handleKeyDown.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleMentionOpen = this.handleMentionOpen.bind(this);
     this.handleMentionClose = this.handleMentionClose.bind(this);
@@ -134,7 +133,6 @@ class CommentForm extends React.Component {
             className={styles['comment-form-textarea']}
             modules={modules}
             onChange={this.handleChange}
-            onKeyDown={this.handleKeyDown}
             placeholder={placeholder}
             value={value || ''}
           />
