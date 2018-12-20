@@ -101,7 +101,7 @@ class CommentBox extends React.PureComponent {
           {title}
         </h3>
         <CommentList>
-          {comments.map(comment => (
+          {comments && comments.map(comment => (
             <Comment key={shortid.generate()} {...comment} />
           ))}
         </CommentList>
