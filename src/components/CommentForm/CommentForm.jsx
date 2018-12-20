@@ -48,7 +48,7 @@ class CommentForm extends React.Component {
     super(props, context);
     this.state = {
       disabled: true,
-      mentionOpen: false,
+      mentionOpen: false, // eslint-disable-line
       value: undefined,
     };
     this.reactQuillRef = React.createRef();
@@ -64,17 +64,6 @@ class CommentForm extends React.Component {
       disabled: editor.getLength() === 1,
       value
     }));
-  }
-
-  handleKeyDown(e) {
-    const { mentionOpen } = this.state;
-    if (mentionOpen) {
-      return;
-    }
-
-    if (!e.shiftKey && e.keyCode === 13) {
-      this.handleSubmit(e);
-    }
   }
 
   handleSubmit(e) {
@@ -100,11 +89,11 @@ class CommentForm extends React.Component {
   }
 
   handleMentionOpen() {
-    this.setState({ mentionOpen: true });
+    this.setState({ mentionOpen: true }); // eslint-disable-line
   }
 
   handleMentionClose() {
-    setTimeout(() => this.setState({ mentionOpen: false }), 100);
+    setTimeout(() => this.setState({ mentionOpen: false }), 100); // eslint-disable-line
   }
 
   render() {
